@@ -1,33 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import { useState } from 'react'
+
+import { useRef, useState } from "react"
+import { Board } from "./components/Board";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const board = useRef(null)
+  const [turn, setTurn] = useState(true);
+
+  function handleClick(event: { clientX: number; }) {
+    const rect = board.current.getBoundingClientRect()
+    const x = event.clientX - rect.left;
+    const col = Math.floor(x / 45)
+    const children = board.current.childNodes[col].childNodes
+    const newSpan = document.createElement("span")
+    newSpan.classList.add("inline-block", "absolute", "z-10", "w-[36px]", "h-[36px]", "rounded-full", turn ? "bg-[#FD6687]" : "bg-[#FFCE67]")
+    for (let index = children.length - 1; index >= 0; index--) {
+      if (children[index].childNodes.length === 0) {
+        children[index].appendChild(newSpan)
+        setTurn(prev => !prev)
+        break
+      }
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Board ref={board} handleClick={handleClick} />
     </>
   )
 }
