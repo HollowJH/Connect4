@@ -1,32 +1,20 @@
-// import { useState } from 'react'
-
-import { useRef, useState } from "react"
+import { useSelector } from "react-redux";
 import { Board } from "./components/Board";
+import { Timer } from "./components/Timer";
+import { RootStat } from "./app/store";
 
 
 function App() {
-  const board = useRef(null)
-  const [turn, setTurn] = useState(true);
-
-  function handleClick(event: { clientX: number; }) {
-    const rect = board.current.getBoundingClientRect()
-    const x = event.clientX - rect.left;
-    const col = Math.floor(x / 45)
-    const children = board.current.childNodes[col].childNodes
-    const newSpan = document.createElement("span")
-    newSpan.classList.add("inline-block", "absolute", "z-10", "w-[36px]", "h-[36px]", "rounded-full", turn ? "bg-[#FD6687]" : "bg-[#FFCE67]")
-    for (let index = children.length - 1; index >= 0; index--) {
-      if (children[index].childNodes.length === 0) {
-        children[index].appendChild(newSpan)
-        setTurn(prev => !prev)
-        break
-      }
-    }
-  }
+  const winner = useSelector((state: RootStat) => state.connect.winner)
 
   return (
     <>
-      <Board ref={board} handleClick={handleClick} />
+      <aside className="w-[142px] h-[81px] bg-white col-start-1 row-start-2 rounded-[20px]"></aside>
+      <Board />
+      <Timer />
+      <aside className="w-[142px] h-[81px] bg-white col-start-1 row-start-2 justify-self-end rounded-[20px]"></aside>
+      <div className={`absolute bottom-0 w-[100vw] h-[22vh] -z-50 rounded-tl-[60px] rounded-tr-[60px]
+        ${winner === 0 ? "bg-[#5C2DD5]" : winner === 1 ? "bg-[#FD6687]" : "bg-[#FFCE67]"}`}></div>
     </>
   )
 }
