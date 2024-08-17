@@ -1,13 +1,21 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { RootStat } from "../app/store";
 import { Ball } from "./Ball";
-import { changeTurn, updateBoard } from "../features/connect4/ConnectSlice";
+import { changeTurn, checkWinners, resetBoard, updateBoard, updateScore } from "../features/connect4/ConnectSlice";
 
 export const Board = () => {
   const visBoard = useRef(null)
   const dispatch = useDispatch()
-  const board = useSelector((state: RootStat) => state.connect.board)
+  const [board, winner] = useSelector((state: RootStat) => [state.connect.board, state.connect.winner])
+
+  useEffect(() => {
+    if (winner !== 0) {
+      dispatch(updateScore(""))
+      dispatch(resetBoard(""))
+    }
+
+  }, [dispatch, board, winner])
 
   function handleClick(event: { clientX: number; }) {
     const rect = visBoard.current.getBoundingClientRect()
@@ -18,6 +26,7 @@ export const Board = () => {
     for (let row = children.length - 1; row >= 0; row--) {
       if (children[row].childNodes.length === 0) {
         dispatch(updateBoard({ col, row }))
+        dispatch(checkWinners([row, col]))
         dispatch(changeTurn(""))
         break
       }
