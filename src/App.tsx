@@ -2,18 +2,34 @@ import { useSelector } from "react-redux";
 import { Board } from "./components/Board";
 import { Timer } from "./components/Timer";
 import { RootStat } from "./app/store";
+import { Score } from "./components/Score";
+import { Endgame } from "./components/Endgame";
+import { useEffect, useState } from "react";
 
 
 function App() {
-  const [winner, score] = useSelector((state: RootStat) => [state.connect.winner, state.connect.score])
+  const winner = useSelector((state: RootStat) => state.connect.winner)
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <>
-      <aside className="w-[142px] h-[81px] text-black bg-white col-start-1 row-start-2 rounded-[20px]">{score.player1}</aside>
-      <Board />
-      <Timer />
-      <aside className="w-[142px] h-[81px] text-black bg-white col-start-1 row-start-2 justify-self-end rounded-[20px]">{score.player2}</aside>
-      <div className={`absolute bottom-0 w-[100vw] h-[22vh] -z-50 rounded-tl-[60px] rounded-tr-[60px]
+      <Score player={1} />
+      <Board width={width} />
+      {winner === 0 ? <Timer /> : <Endgame />}
+      <Score player={2} width={width} />
+      <div className={`fixed bottom-0 w-[100%] h-[22vh] -z-50 rounded-tl-[60px] rounded-tr-[60px]
         ${winner === 0 ? "bg-[#5C2DD5]" : winner === 1 ? "bg-[#FD6687]" : "bg-[#FFCE67]"}`}></div>
     </>
   )

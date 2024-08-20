@@ -5,6 +5,7 @@ import { winningPlays } from "../../definitions/winningPlays"
 export interface ConnectState {
     turn: string
     winner: number
+    winningPlay: []
     score: {
         player1: number
         player2: number
@@ -22,6 +23,7 @@ export interface ConnectState {
 export const initialState: ConnectState = {
     turn: "red",
     winner: 0,
+    winningPlay: [],
     score: {
         player1: 0,
         player2: 0
@@ -60,10 +62,10 @@ export const connectSlice: Slice = createSlice({
         resetBoard: (state) => {
             state.board = initialState.board
             state.winner = 0
+            state.winningPlay = []
         },
         checkWinners: (state, coordinates) => {
             const board = state.board
-            console.log("checking")
             for (let i = 0; i < initialWinningPlays.length; i++) {
                 const checkedPlay = initialWinningPlays[i]
                 if (!checkedPlay.some(sub => sub.toString() === coordinates.payload.toString())) continue
@@ -75,7 +77,7 @@ export const connectSlice: Slice = createSlice({
                 }
                 if (matches === 3){
                     state.winner = board[checkedPlay[0][0]][checkedPlay[0][1]] === "red" ? 1 : 2
-                    updateScore("")
+                    state.winningPlay = checkedPlay
                     break
                 }
             }

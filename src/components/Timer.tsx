@@ -26,9 +26,8 @@ export function Timer() {
     }, [dispatch, time])
 
     return (<div className={`w-[197px] h-[165px] flex flex-col items-center justify-center bg-no-repeat row-start-3 col-start-1
-    relative z-[99] top-[138px] justify-self-center 
+    relative z-[99] top-[138px] md:top-[245px] lg:top-[180px] justify-self-center xl:col-start-2 pt-4
     ${turn === "red" ? " bg-[url(/images/turn-background-red.svg)]" : " bg-[url(/images/turn-background-yellow.svg)] text-black"}`}>
-        {/* <img src={`/images/turn-background-${turn}.svg`} alt="" /> */}
         <span className="leading-[21px] ">{`PLAYER ${turn === "red" ? 1 : 2}'S TURN`}</span>
         <span className="text-[56px]/[71px] ">{time}s</span>
     </div>)
