@@ -6,6 +6,7 @@ export interface ConnectState {
     turn: string
     winner: number
     winningPlay: []
+    paused: boolean
     score: {
         player1: number
         player2: number
@@ -24,6 +25,7 @@ export const initialState: ConnectState = {
     turn: "red",
     winner: 0,
     winningPlay: [],
+    paused: false,
     score: {
         player1: 0,
         player2: 0
@@ -58,8 +60,11 @@ export const connectSlice: Slice = createSlice({
             const newBoard = state.board
             newBoard[action.payload.row][action.payload.col] = state.turn
             state.board = newBoard
+            state.plays++
         },
         resetBoard: (state) => {
+            if ((state.score.player1 + state.score.player2) % 2 === 0) state.turn = "red"
+            else state.turn = "yellow"
             state.board = initialState.board
             state.winner = 0
             state.winningPlay = []
@@ -81,9 +86,12 @@ export const connectSlice: Slice = createSlice({
                     break
                 }
             }
+        },
+        pause: (state) => {
+            state.pause = !state.pause
         }
     }
 })
 
-export const { changeTurn, updateWinner, updateScore, updateBoard, checkWinners, resetBoard } = connectSlice.actions
+export const { changeTurn, updateWinner, updateScore, updateBoard, checkWinners, resetBoard, pause } = connectSlice.actions
 export default connectSlice.reducer

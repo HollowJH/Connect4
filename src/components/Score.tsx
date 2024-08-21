@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { RootStat } from "../app/store"
 
-export function Score({ player }: { player: number, width: number }) {
+export function Score({ player }: { player: number}) {
     const score = useSelector((state: RootStat) => state.connect.score)
     const playerScore = player == 1 ? score.player1 : score.player2
 

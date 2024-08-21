@@ -1,11 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
-import { changeTurn, checkWinners, resetBoard, updateBoard, updateScore } from "../features/connect4/ConnectSlice"
+import { changeTurn, checkWinners, pause, resetBoard, updateBoard, updateScore } from "../features/connect4/ConnectSlice"
 import { RootStat } from "../app/store"
 
 export function useConnect() {
     const dispatch = useDispatch()
     const winner = useSelector((state: RootStat) => state.connect.winner)
     const winningPlay = useSelector((state: RootStat) => state.connect.winningPlay)
+    const currentTurn = useSelector((state: RootStat) => state.connect.turn)
+    const isPaused = useSelector((state: RootStat) => state.connect.paused)
+    const board = useSelector((state: RootStat) => state.connect.board)
 
     function updateTurn() {
         dispatch(changeTurn(""))
@@ -33,5 +36,9 @@ export function useConnect() {
         dispatch(resetBoard(""))
     }
 
-    return { turn, win, newPlay, updateTurn, newScore, erase, winner, winningPlay }
+    function pauseGame() {
+        dispatch(pause(""))
+    }
+
+    return { turn, win, newPlay, updateTurn, newScore, erase, pauseGame, winner, winningPlay, isPaused, currentTurn, board }
 }
