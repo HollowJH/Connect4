@@ -14,11 +14,6 @@ export function Timer({reset} : {reset: boolean}) {
      }, [currentTurn, reset])
 
     useEffect(() => {
-        setTime(15)
-        console.log(reset)
-    },[reset])
-
-    useEffect(() => {
         if (time === 0) {
             updateTurn()
         } else if (!isPaused) {
@@ -30,8 +25,8 @@ export function Timer({reset} : {reset: boolean}) {
         return () => clearTimeout(timeoutId)
     }, [time, isPaused])
 
-    return (<div className={`w-[197px] h-[165px] flex flex-col items-center justify-center bg-no-repeat row-start-3 col-start-1
-    relative z-[99] top-[138px] md:top-[245px] lg:top-[180px] justify-self-center xl:col-start-2 pt-4
+    return (<div className={`absolute w-[197px] h-[165px] flex flex-col items-center justify-center bg-no-repeat row-start-3 col-start-1
+    z-[99] bottom-[80px] md:bottom-[50px] lg:bottom-[55px] justify-self-center pt-4
     ${currentTurn === "red" ? " bg-[url(/images/turn-background-red.svg)]" : " bg-[url(/images/turn-background-yellow.svg)] text-black"}`}>
         <span className="leading-[21px] ">{`PLAYER ${currentTurn === "red" ? 1 : 2}'S TURN`}</span>
         <span className="text-[56px]/[71px] ">{time}s</span>

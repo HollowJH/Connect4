@@ -7,7 +7,7 @@ export function Score({ player }: { player: number}) {
 
 
     return (<aside className={`relative w-[142px] md:w-[272px] md:h-[100px] flex md:flex-row md:gap-[37px] flex-col justify-center items-center h-[81px] text-black 
-    bg-white rounded-[20px] shadow-[0_2px_0_5px,0_10px_0_5px] 
+    bg-white rounded-[20px] shadow-[0_2px_0_5px,0_10px_0_5px] justify-self-start
     lg:h-[160px] lg:w-[141px] lg:flex-col lg:gap-0 lg:pt-4 lg:top-[245px]
     ${window.innerWidth > 1200 ? player === 1 ? " col-start-1 row-start-2" : "col-start-3 row-start-2" : "col-start-1 row-start-2"}
     ` + (player === 1 ? "" : " justify-self-end")}>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useConnect } from "../hooks/useConnect"
 
 export function Pause({ erase, resetTimer }: { erase: () => void, resetTimer: () => void }) {
@@ -17,8 +18,14 @@ export function Pause({ erase, resetTimer }: { erase: () => void, resetTimer: ()
                         erase()
                         resetTimer()
                     }}>RESTART</button>}
-            <button className="h-[72px] w-full bg-[#FD6687] rounded-[20px] grid place-content-center 
+            <Link to="/" className="w-full">
+                <button onClick={() => {
+                    pauseGame()
+                    erase()
+                }}
+                className="h-[72px] w-full bg-[#FD6687] rounded-[20px] grid place-content-center 
             text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] ">QUIT GAME</button>
+            </Link>
         </div>
     </div>)
 }

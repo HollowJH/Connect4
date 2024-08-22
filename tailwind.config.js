@@ -4,7 +4,11 @@ export default {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        "gameRows": "40px 80px 1fr"
+      }
+    },
   },
   plugins: [],
 }

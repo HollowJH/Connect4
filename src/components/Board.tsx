@@ -22,7 +22,6 @@ export function Board({ width }: { width: number }) {
     const rect = visBoard.current!.getBoundingClientRect()
     const x = event.clientX - rect.left;
     const col = Math.floor(x / colWidth) //divides the x value of the cell by the width + padding
-    console.log(`Clicked column ${col}`);
     const children = visBoard.current!.childNodes[col].childNodes
     for (let row = children.length - 1; row >= 0; row--) {
       if (children[row].childNodes.length === 0) {
