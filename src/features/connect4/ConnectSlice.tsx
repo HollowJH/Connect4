@@ -23,7 +23,7 @@ export interface ConnectState {
 
 export const initialState: ConnectState = {
     turn: "red",
-    againstAI: true,
+    againstAI: false,
     winner: 0,
     winningPlay: [],
     paused: false,
@@ -54,6 +54,7 @@ export const connectSlice: Slice = createSlice({
             state.winner = newWinner.payload === "red" ? 1 : 2
         },
         updateScore: (state) => {
+            if (state.winner === 3) return
             if (state.turn === "yellow") state.score.player1 += 1
             else state.score.player2 += 1
         },

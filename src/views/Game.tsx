@@ -36,7 +36,7 @@ export function Game() {
       {isPaused && <Pause erase={erase} resetTimer={updateReset} />}
     </div>
       <div className={`fixed bottom-0 w-[100%] h-[22vh] -z-50 rounded-tl-[60px] rounded-tr-[60px]
-        ${winner === 0 ? "bg-[#5C2DD5]" : winner === 1 ? "bg-[#FD6687]" : "bg-[#FFCE67]"}`}></div>
+        ${winner === 0 || winner === 3 ? "bg-[#5C2DD5]" : winner === 1 ? "bg-[#FD6687]" : "bg-[#FFCE67]"}`}></div>
   </>
   )
 }
