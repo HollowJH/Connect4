@@ -31,7 +31,18 @@ export function Rules() {
             </ol>
         </section>
         <Link to="/" className="justify-self-center absolute -bottom-[40px]">
-            <img src="/images/icon-check.svg" alt="check icon" />
+            <svg className="group"
+            width="70px" height="75px" viewBox="0 0 70 75" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <title>icon-check</title>
+                <g id="Designs" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="icon-check">
+                        <circle className="group-hover:fill-[#5C2DD5]" id="Oval-Copy-37" fill="currentColor" cx="35" cy="35" r="35"></circle>
+                        <circle className="group-hover:fill-[#5C2DD5]" id="Oval-Copy-38" fill="currentColor" cx="35" cy="40" r="35"></circle>
+                        <circle id="Oval-Copy-39" fill="#FD6687" cx="35" cy="35" r="32"></circle>
+                        <polyline id="Path" stroke="#FFFFFF" stroke-width="3" points="20 34.5819497 30.2640104 44.84596 50.1099704 25"></polyline>
+                    </g>
+                </g>
+            </svg>
         </Link>
     </div>)
 }

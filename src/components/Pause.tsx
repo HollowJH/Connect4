@@ -9,10 +9,10 @@ export function Pause({ erase, resetTimer }: { erase: () => void, resetTimer: ()
         justify-center p-5 shadow-[0_2px_0_5px,0_10px_0_5px] shadow-black gap-[30px] ">
             <h2 className="text-[56px]/[71px] ">PAUSE</h2>
             <button className="h-[72px] w-full bg-white rounded-[20px] grid place-content-center 
-            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] " onClick={() => pauseGame()}>CONTINUE GAME</button>
+            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] hover:shadow-[#5C2DD5]" onClick={() => pauseGame()}>CONTINUE GAME</button>
             {!board.every((row: string[]) => row.every(cell => cell === "")) &&
                 <button className="h-[72px] w-full bg-white rounded-[20px] grid place-content-center 
-            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] "
+            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] hover:shadow-[#5C2DD5]"
                     onClick={() => {
                         pauseGame()
                         erase()
@@ -24,7 +24,7 @@ export function Pause({ erase, resetTimer }: { erase: () => void, resetTimer: ()
                     erase()
                 }}
                 className="h-[72px] w-full bg-[#FD6687] rounded-[20px] grid place-content-center 
-            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] ">QUIT GAME</button>
+            text-black text-[24px]/[31px] shadow-[0_2px_0_5px,0_10px_0_5px] hover:shadow-[#5C2DD5]">QUIT GAME</button>
             </Link>
         </div>
     </div>)

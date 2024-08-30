@@ -4,10 +4,12 @@ import { RootStat } from "../app/store";
 import { Ball } from "./Ball";
 import { useConnect } from "../hooks/useConnect";
 import { Check } from "./Check";
+import { useMinimax } from "../hooks/useMinimax";
 
 export function Board({ width }: { width: number }) {
   const visBoard = useRef<HTMLDivElement>(null)
-  const { turn, newScore, winningPlay, winner } = useConnect()
+  const { getBestMove } = useMinimax()
+  const { turn, newScore, winningPlay, winner, isAI, currentTurn } = useConnect()
   const board = useSelector((state: RootStat) => state.connect.board)
   const isPaused = useSelector((state: RootStat) => state.connect.pause)
 
@@ -30,6 +32,20 @@ export function Board({ width }: { width: number }) {
       }
     }
   }
+
+  useEffect(() => {
+    if (isAI && currentTurn === "yellow" && winner === 0) {
+      const col = getBestMove(board, currentTurn)
+      const children = visBoard.current?.childNodes[col].childNodes ?? []
+      for (let row = children.length - 1; row >= 0; row--) {
+        if (children[row].childNodes.length === 0) {
+          turn(col, row)
+          break
+        }
+      }
+
+    }
+  }, [board, currentTurn, getBestMove, isAI, turn, winner])
 
   return (
     <div className="relative h-[320px] w-[335px] md:w-[632px] md:h-[594px] row-start-3 lg:row-start-2 col-start-1 lg:col-start-2 self-start">

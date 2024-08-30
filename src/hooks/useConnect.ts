@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { changeTurn, checkWinners, pause, resetBoard, updateBoard, updateScore } from "../features/connect4/ConnectSlice"
+import { changeTurn, checkWinners, pause, resetBoard, startGame, updateBoard, updateScore } from "../features/connect4/ConnectSlice"
 import { RootStat } from "../app/store"
 
 export function useConnect() {
@@ -9,6 +9,7 @@ export function useConnect() {
     const currentTurn = useSelector((state: RootStat) => state.connect.turn)
     const isPaused = useSelector((state: RootStat) => state.connect.paused)
     const board = useSelector((state: RootStat) => state.connect.board)
+    const isAI = useSelector((state: RootStat) => state.connect.againstAI);
 
     function updateTurn() {
         dispatch(changeTurn(""))
@@ -17,7 +18,9 @@ export function useConnect() {
     function turn(col: number, row: number) {
         newPlay({ col, row })
         win([row, col])
-        dispatch(changeTurn(""))
+        if (winner == 0) {
+            dispatch(changeTurn(""))
+        }
     }
 
     function win(lastPlay: number[]) {
@@ -40,5 +43,10 @@ export function useConnect() {
         dispatch(pause(""))
     }
 
-    return { turn, win, newPlay, updateTurn, newScore, erase, pauseGame, winner, winningPlay, isPaused, currentTurn, board }
+    function newGame(isAI: boolean) {
+        dispatch(startGame(isAI))
+    }
+
+    return { turn, win, newPlay, updateTurn, newScore, erase, pauseGame, newGame, winner, winningPlay, isPaused, currentTurn, board, isAI }
 }
+

@@ -1,9 +1,9 @@
 import { createSlice, Slice } from "@reduxjs/toolkit"
-import React from "react"
 import { winningPlays } from "../../definitions/winningPlays"
 
 export interface ConnectState {
     turn: string
+    againstAI: boolean
     winner: number
     winningPlay: []
     paused: boolean
@@ -12,17 +12,18 @@ export interface ConnectState {
         player2: number
     }
     board: [
-        string[] | React.ReactNode[],
-        string[] | React.ReactNode[],
-        string[] | React.ReactNode[],
-        string[] | React.ReactNode[],
-        string[] | React.ReactNode[],
-        string[] | React.ReactNode[],
+        string[],
+        string[],
+        string[],
+        string[],
+        string[],
+        string[]
     ]
 }
 
 export const initialState: ConnectState = {
     turn: "red",
+    againstAI: true,
     winner: 0,
     winningPlay: [],
     paused: false,
@@ -71,6 +72,10 @@ export const connectSlice: Slice = createSlice({
         },
         checkWinners: (state, coordinates) => {
             const board = state.board
+            if (board.every((row: string[]) => row.every(cell => cell !== ""))) {
+                state.winner = 3
+                return
+            }
             for (let i = 0; i < initialWinningPlays.length; i++) {
                 const checkedPlay = initialWinningPlays[i]
                 if (!checkedPlay.some(sub => sub.toString() === coordinates.payload.toString())) continue
@@ -80,7 +85,7 @@ export const connectSlice: Slice = createSlice({
                     else if (board[checkedPlay[j][0]][checkedPlay[j][1]] === play) matches++
                     else if (board[checkedPlay[j][0]][checkedPlay[j][1]] === "") break
                 }
-                if (matches === 3){
+                if (matches === 3) {
                     state.winner = board[checkedPlay[0][0]][checkedPlay[0][1]] === "red" ? 1 : 2
                     state.winningPlay = checkedPlay
                     break
@@ -89,9 +94,18 @@ export const connectSlice: Slice = createSlice({
         },
         pause: (state) => {
             state.pause = !state.pause
+        },
+        startGame: (state, isAI) => {
+            state.turn = "red"
+            state.score = {player1: 0, player2: 0}
+            state.againstAI = isAI.payload
+            state.pause = false
+            state.winner = 0
+            console.log("game started", state.againstAI)
         }
     }
 })
 
-export const { changeTurn, updateWinner, updateScore, updateBoard, checkWinners, resetBoard, pause } = connectSlice.actions
+export const { changeTurn, updateWinner, updateScore, updateBoard, checkWinners, resetBoard, pause, startGame } = connectSlice.actions
 export default connectSlice.reducer
+
