@@ -35,7 +35,7 @@ export function Board({ width }: { width: number }) {
 
   useEffect(() => {
     if (isAI && currentTurn === "yellow" && winner === 0) {
-      const TIME = (Math.floor)
+      const TIME = (Math.floor(Math.random() * (7 - 2 + 1)) + 1) * 1000
       setTimeout(() => {
         
         const col = getBestMove(board, currentTurn)
@@ -47,7 +47,7 @@ export function Board({ width }: { width: number }) {
             break
           }
         }
-      }, 3000);
+      }, TIME);
 
     }
   }, [board, currentTurn, getBestMove, isAI, turn, winner])
