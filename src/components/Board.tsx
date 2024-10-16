@@ -20,7 +20,7 @@ export function Board({ width }: { width: number }) {
   function handleClick(event: { clientX: number; }) {
     const colWidth = window.innerWidth < 768 ? 47.8 : 90.28
 
-    if (winner !== 0 || isPaused) return
+    if (winner !== 0 || isPaused || isAI && currentTurn === "yellow") return
     const rect = visBoard.current!.getBoundingClientRect()
     const x = event.clientX - rect.left;
     const col = Math.floor(x / colWidth) //divides the x value of the cell by the width + padding
@@ -35,14 +35,18 @@ export function Board({ width }: { width: number }) {
 
   useEffect(() => {
     if (isAI && currentTurn === "yellow" && winner === 0) {
-      const col = getBestMove(board, currentTurn)
-      const children = visBoard.current?.childNodes[col].childNodes ?? []
-      for (let row = children.length - 1; row >= 0; row--) {
-        if (children[row].childNodes.length === 0) {
-          turn(col, row)
-          break
+      setTimeout(() => {
+        
+        const col = getBestMove(board, currentTurn)
+        const children = visBoard.current?.childNodes[col].childNodes ?? []
+        for (let row = children.length - 1; row >= 0; row--) {
+          if (children[row].childNodes.length === 0) {
+            
+            turn(col, row)
+            break
+          }
         }
-      }
+      }, 3000);
 
     }
   }, [board, currentTurn, getBestMove, isAI, turn, winner])
